@@ -12,13 +12,6 @@ class Cardlike::Card
     @text = card_text
   end
 
-  def property(prop)
-    @properties[prop.to_sym] = nil
-    self.instance_eval do
-      define_method prop.to_sym, lambda { |v| @properties[prop.to_sym] = v }
-    end
-  end
-
   def [](prop)
     @properties[prop]
   end

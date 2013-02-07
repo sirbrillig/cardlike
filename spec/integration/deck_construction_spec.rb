@@ -6,7 +6,7 @@ describe 'Defining a card' do
     context "for a basic card" do
       before do
         #FIXME: I don't want to have to use the full path here.
-        @card = Cardlike::Card.card "Fire Monster" do
+        @card = Cardlike.card "Fire Monster" do
           text "A red-hot monster."
         end
       end

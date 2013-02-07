@@ -35,10 +35,11 @@ describe 'Defining a card' do
         @card[:value].should eq 10
       end
 
-      it "does not affect other Card instances" do
+      it "does affect other Card instances" do
         @card2 = Cardlike.card "Castle"
-        @card2.should_not respond_to :value
+        @card2.should respond_to :value
       end
+
     end
 
   end
@@ -51,16 +52,55 @@ describe 'Defining a card' do
       end
     end
 
-    it "creates a custom Card object" do
-      @playing_card.should be_a_kind_of Card
-    end
-
     it "creates a new Class" do
-      @playing_card.class.should eq "PlayingCard"
+      @playing_card.should be_a_kind_of Class
     end
 
-    context "when setting custom fields on an instance of that card" do
-      it "sets the field"
+    it "creates a subclass of Card" do
+      @playing_card.should < Cardlike::Card
     end
+
+    it "creates a dynamic custom Class" do
+      @playing_card.name.should eq "PlayingCard"
+    end
+
+    it "creates an accessor for the custom field" do
+      @playing_card.new.should respond_to :suit
+    end
+    
+    context "when instantiated" do
+      before do
+        @card = @playing_card.create "Six of Spades" do
+          value 6
+          suit 'Spades'
+        end
+      end
+
+      it "creates a custom Card object" do
+        @card.should be_a_kind_of Cardlike::Card
+      end
+
+      it "creates an accessor for the custom field" do
+        @card.should respond_to :suit
+      end
+
+      it "does not affect other Card instances" do
+        @card2 = Cardlike.card "Castle"
+        @card2.should_not respond_to :suit
+      end
+
+      context "when setting custom fields" do
+        before do
+          @card.suit 'Clubs'
+        end
+
+        it "sets the field" do
+          @card[:suit].should eq 'Clubs'
+        end
+      end
+
+    end
+
   end
+
 end

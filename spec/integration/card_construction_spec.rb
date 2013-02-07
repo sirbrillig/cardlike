@@ -89,14 +89,12 @@ describe 'Defining a card' do
         @card2.should_not respond_to :suit
       end
 
-      context "when setting custom fields" do
-        before do
-          @card.suit 'Clubs'
-        end
+      it "sets the field properly" do
+        @card[:suit].should eq 'Spades'
+      end
 
-        it "sets the field" do
-          @card[:suit].should eq 'Clubs'
-        end
+      it "does not allow fields to be set again" do
+        lambda { @card.suit 'Clubs' }.should raise_error(StandardError)
       end
 
     end

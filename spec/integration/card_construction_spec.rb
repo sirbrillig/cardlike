@@ -23,30 +23,11 @@ describe 'Defining a card' do
       end
     end
 
-    context "with a custom field" do
-      before do
-        @card = Cardlike.card "Jack of Spades" do
-          has :value
-          value 10
-        end
-      end
-
-      it "creates a Card object with the field as a hash key" do
-        @card[:value].should eq 10
-      end
-
-      it "does affect other Card instances" do
-        @card2 = Cardlike.card "Castle"
-        @card2.should respond_to :value
-      end
-
-    end
-
   end
 
   context "using the custom card DSL" do
     before do
-      @playing_card = Cardlike.type_of_card "Playing Card" do
+      @playing_card = Cardlike.type_of_card :playing_card do
         has :value
         has :suit
       end
@@ -66,6 +47,26 @@ describe 'Defining a card' do
 
     it "creates an accessor for the custom field" do
       @playing_card.new.should respond_to :suit
+    end
+
+    context "when instantiated with the 'new_' factory" do
+      before do
+        deck = Cardlike.deck "Test" do
+          new_playing_card "Six of Spades" do
+            value 6
+            suit 'Spades'
+          end
+        end
+        @card = deck.first
+      end
+
+      it "creates a custom Card object" do
+        @card.should be_a_kind_of Cardlike::Card
+      end
+
+      it "creates an accessor for the custom field" do
+        @card.should respond_to :suit
+      end
     end
     
     context "when instantiated" do

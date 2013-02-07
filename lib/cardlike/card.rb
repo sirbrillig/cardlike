@@ -22,10 +22,6 @@ class Cardlike::Card
     @properties[prop]
   end
 
-  def has(prop)
-    self.class.send(:define_method, prop, lambda { |arg|  raise "Cards are immutable." if @properties.has_key? prop; @properties[prop] = arg })
-  end
-
   def self.has(prop)
     define_method(prop, lambda { |arg| raise "Cards are immutable." if @properties.has_key? prop; @properties[prop] = arg })
   end

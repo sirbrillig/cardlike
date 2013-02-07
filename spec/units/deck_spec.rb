@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Cardlike::Deck do
-  let (:deck) { Cardlike::Deck.new(cards: ['a', 'b', 'c']) }
+  let (:deck) { Cardlike::Deck.new(cards: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k']) }
 
   describe "#shuffle" do
     before do
@@ -9,7 +9,7 @@ describe Cardlike::Deck do
     end
 
     it "returns a differently-ordered deck" do
-      deck.shuffle.should_not eq @orig_deck
+      deck.shuffle.shuffle.should_not eq @orig_deck
     end
 
     it "retains the order of the deck" do

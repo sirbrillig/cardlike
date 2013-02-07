@@ -13,7 +13,7 @@ describe 'A deck of cards' do
 
   context 'when a card is drawn' do
     before do
-      @drawn = @deck.draw.first
+      @drawn = @deck.draw
     end
 
     it 'is one of the cards from the deck' do

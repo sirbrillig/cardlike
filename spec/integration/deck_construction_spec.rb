@@ -5,7 +5,6 @@ describe 'Defining a card' do
 
     context "for a basic card" do
       before do
-        #FIXME: I don't want to have to use the full path here.
         @card = Cardlike.card "Fire Monster" do
           text "A red-hot monster."
         end
@@ -24,16 +23,16 @@ describe 'Defining a card' do
       end
     end
 
-    context "with a custom field specified inline" do
+    context "with a custom field" do
       before do
-        include Cardlike::Card
-        @card = card "Four of Spades" do
-#           my :value is 4
+        @card = Cardlike.card "Jack of Spades" do
+          has :value
+          value 10
         end
       end
 
       it "creates a Card object with the field as a hash key" do
-        @card[:value].should eq 4
+        @card[:value].should eq 10
       end
     end
 

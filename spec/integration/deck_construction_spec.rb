@@ -35,9 +35,9 @@ describe 'Defining a card' do
         @card[:value].should eq 10
       end
 
-      it "does not effect other Card instances" do
+      it "does not affect other Card instances" do
         @card2 = Cardlike.card "Castle"
-        @card2[:value].should be nil
+        @card2.should_not respond_to :value
       end
     end
 

@@ -8,6 +8,10 @@ module Cardlike
     "#{self} version #{VERSION}"
   end
 
+  def self.game(&block)
+    self.class_eval(&block)
+  end
+
   def self.deck(name, &block)
     @decks ||= {}
     d = Deck.new(name: name)

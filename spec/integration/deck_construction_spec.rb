@@ -3,25 +3,27 @@ require 'spec_helper'
 describe "Building a deck" do
   context "with a bunch of cards defined in the block" do
     before do
-      Cardlike.type_of_card :playing_card do
-        has :value
-        has :suit
-      end
-
-      Cardlike.deck "Poker Deck" do
-        new_playing_card "Ace of Spades" do
-          value 11
-          suit 'Spades'
+      Cardlike.game do
+        type_of_card :playing_card do
+          has :value
+          has :suit
         end
 
-        new_playing_card "Ace of Diamonds" do
-          value 11
-          suit 'Diamonds'
-        end
+        deck "Poker Deck" do
+          new_playing_card "Ace of Spades" do
+            value 11
+            suit 'Spades'
+          end
 
-        new_playing_card "Five of Clubs" do
-          value 5
-          suit 'Clubs'
+          new_playing_card "Ace of Diamonds" do
+            value 11
+            suit 'Diamonds'
+          end
+
+          new_playing_card "Five of Clubs" do
+            value 5
+            suit 'Clubs'
+          end
         end
       end
 

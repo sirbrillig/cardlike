@@ -9,6 +9,11 @@ class Cardlike::Deck < Array
   def draw
     self.pop
   end
+
+  def include_card(name)
+    raise "Card '#{name}' not found." unless card = Cardlike.the_card(name)
+    self << card
+  end
 end
 
 

@@ -21,6 +21,11 @@ module Cardlike
     @decks[name]
   end
 
+  def self.the_card(name)
+    @cards ||= {}
+    @cards[name]
+  end
+
   def self.card(name, &block)
     c = Card.new(name: name)
     c.instance_eval(&block) if block_given?
@@ -30,11 +35,13 @@ module Cardlike
   def self.type_of_card(name, &block)
     klass = Class.new(Card)
     klass_name = name.to_s.camelize
+    name_underscored = name.to_s.downcase.underscore
     Object.const_set(klass_name, klass) if not Object.const_defined?(klass_name)
     c = Object.const_get(klass_name)
     c.class_eval(&block) if block_given?
 
-    Deck.send(:define_method, "new_#{name.to_s.downcase.underscore}", lambda { |arg, &blk| card = c.create(arg, &blk); self << card; card })
+    Deck.send(:define_method, "new_#{name_underscored}", lambda { |arg, &blk| card = c.create(arg, &blk); self << card; card })
+    self.class.send(:define_method, "new_#{name_underscored}", lambda { |arg, &blk| card = c.create(arg, &blk); @cards ||= {}; @cards[arg] = card; card })
 
     c
   end

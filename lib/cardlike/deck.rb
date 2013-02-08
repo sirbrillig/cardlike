@@ -14,6 +14,12 @@ class Cardlike::Deck < Array
     raise "Card '#{name}' not found." unless card = Cardlike.the_card(name)
     self << card
   end
+
+  def card(name, &block)
+    c = Cardlike.card(name, &block)
+    self << c
+    c
+  end
 end
 
 

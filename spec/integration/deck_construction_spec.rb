@@ -1,6 +1,24 @@
 require 'spec_helper'
 
 describe "Building a deck" do
+  context "with a simple card" do
+    before do
+      Cardlike.game do
+        deck "Simple Deck" do
+          card "Boring Card"
+        end
+      end
+    end
+
+    it "has 1 card" do
+      Cardlike.the_deck("Simple Deck").size.should eq 1
+    end
+
+    it "contains the first card" do
+      Cardlike.the_deck("Simple Deck").first.name.should eq "Boring Card"
+    end
+  end
+
   context "with a bunch of cards defined in the block" do
     before do
       Cardlike.game do
@@ -87,6 +105,33 @@ describe "Building a deck" do
 
     it "contains a card created in the block" do
       Cardlike.the_deck("Blackjack Deck").first.name.should eq "King of Diamonds"
+    end
+
+  end
+
+  context "with multiple copies of a card" do
+    before do
+      Cardlike.type_of_card :playing_card do
+        has :value
+        has :suit
+      end
+
+      Cardlike.new_playing_card "Queen of Diamonds" do
+        value 10
+        suit :diamonds
+      end
+
+      Cardlike.deck "Copy Deck" do
+        6.times { copy_card "Queen of Diamonds" }
+      end
+    end
+
+    it "contains the right number of cards" do
+      Cardlike.the_deck("Copy Deck").size.should eq 2
+    end
+
+    it "contains a card created in the block" do
+      Cardlike.the_deck("Copy Deck").first.name.should eq "Queen of Diamonds"
     end
 
   end

@@ -15,6 +15,12 @@ class Cardlike::Deck < Array
     self << card
   end
 
+  def copy_card(name)
+    raise "Card '#{name}' not found." unless card = Cardlike.the_card(name)
+    copy = card.dup
+    self << copy
+  end
+
   def card(name, &block)
     c = Cardlike.card(name, &block)
     self << c

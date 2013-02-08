@@ -127,11 +127,15 @@ describe "Building a deck" do
     end
 
     it "contains the right number of cards" do
-      Cardlike.the_deck("Copy Deck").size.should eq 2
+      Cardlike.the_deck("Copy Deck").size.should eq 6
     end
 
     it "contains a card created in the block" do
       Cardlike.the_deck("Copy Deck").first.name.should eq "Queen of Diamonds"
+    end
+
+    it "contains another card created in the block" do
+      Cardlike.the_deck("Copy Deck")[2].name.should eq "Queen of Diamonds"
     end
 
   end

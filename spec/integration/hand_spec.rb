@@ -18,5 +18,15 @@ describe "A hand of cards" do
     it "contains the first card" do
       Cardlike.the_hand("Player 1").first.name.should eq "Boring Card One"
     end
+
+    context "when removing a specific card" do
+      before do
+        card1 = Cardlike.the_hand("Player 1").remove_card "Boring Card One"
+      end
+
+      it "can remove a specific card" do
+        card1.name.should eq "Boring Card One"
+      end
+    end
   end
 end

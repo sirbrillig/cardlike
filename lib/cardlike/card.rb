@@ -26,4 +26,12 @@ class Cardlike::Card
     define_method(prop, lambda { |arg| raise "Cards are immutable." if @properties.has_key? prop; @properties[prop] = arg })
   end
 
+  def to_s
+    t = []
+    t << "Name: #{name}"
+    t << "Text: #{text}" if text
+    @properties.each { |p,v| t << "#{p}: #{v}" } 
+    t.join("\n")
+  end
+
 end

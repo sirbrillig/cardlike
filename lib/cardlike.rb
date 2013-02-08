@@ -1,6 +1,7 @@
 require "cardlike/version"
 require "cardlike/deck"
 require "cardlike/card"
+require "cardlike/hand"
 require "active_support/inflector"
 
 module Cardlike
@@ -41,6 +42,14 @@ module Cardlike
     d
   end
 
+  def self.hand(name, &block)
+    @hands ||= {}
+    d = Hand.new(name: name)
+    d.instance_eval(&block) if block_given?
+    @hands[name] = d
+    d
+  end
+
   #
   # Return a Deck created by the +deck+ method by +name+.
   #
@@ -49,6 +58,11 @@ module Cardlike
   def self.the_deck(name)
     @decks ||= {}
     @decks[name]
+  end
+
+  def self.the_hand(name)
+    @hands ||= {}
+    @hands[name]
   end
 
   # 

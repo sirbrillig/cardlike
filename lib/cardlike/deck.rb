@@ -21,5 +21,3 @@ class Cardlike::Deck < Array
     c
   end
 end
-
-

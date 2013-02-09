@@ -1,5 +1,7 @@
 class Cardlike::Hand < Cardlike::Deck
-  # FIXME: add ability to pull out individual cards.
+  def remove_card(card_name)
+    self.delete(self.select { |card| card.name == card_name }.first)
+  end
   
   def to_s
     puts "Hand: #{name}"

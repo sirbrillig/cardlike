@@ -42,6 +42,15 @@ module Cardlike
     d
   end
 
+  #
+  # Set up a new Hand with the given name. Returns the created Hand which can
+  # also be accessed with +the_deck+. Within the block you may use the Hand DSL.
+  #
+  #   Cardlike.hand "Poker Hand" do
+  #     include_card "King of Diamonds"
+  #     include_card "Three of Clubs"
+  #   end
+  #
   def self.hand(name, &block)
     @hands ||= {}
     d = Hand.new(name: name)
@@ -60,6 +69,11 @@ module Cardlike
     @decks[name]
   end
 
+  #
+  # Return a Hand created by the +hand+ method by +name+.
+  #
+  #   Cardlike.the_hand("Poker Hand").size # => 5
+  #
   def self.the_hand(name)
     @hands ||= {}
     @hands[name]

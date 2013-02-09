@@ -1,3 +1,6 @@
+#
+# Represents a game deck. Best used with the Card and Deck DSL. See Cardlike.
+#
 class Cardlike::Deck < Array
   attr_accessor :name
 

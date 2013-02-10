@@ -59,6 +59,7 @@ Cardlike.game do
       the_deck("Go Fish").draw_into current_player
       # FIXME: check for matches here too.
     end
+    # FIXME: check for empty deck.
     another_turn
   end
 

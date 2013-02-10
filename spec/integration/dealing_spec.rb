@@ -24,4 +24,19 @@ describe 'A deck of cards' do
       @deck.should_not include @drawn
     end
   end
+
+  context "when a card is drawn into a Hand" do
+    before do
+      @hand = Hand.new(name: 'Player 1')
+      @drawn = @deck.draw_into @hand
+    end
+
+    it "inserts the card into the Hand" do
+      @hand.should include @drawn
+    end
+
+    it "removes the card from the Deck" do
+      @deck.should_not include @drawn
+    end
+  end
 end

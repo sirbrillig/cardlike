@@ -17,6 +17,11 @@ class Cardlike::Deck < Array
     self.dup.shuffle!
   end
 
+  def +(ary)
+    ary.each { |a| self << a }
+    self
+  end
+
   def include_card(name)
     raise "Card '#{name}' not found." unless card = Cardlike.the_card(name)
     self << card

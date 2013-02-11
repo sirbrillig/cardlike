@@ -6,8 +6,13 @@ class Cardlike::Hand < Cardlike::Deck
     self.delete(self.select { |card| card.name == card_name }.first)
   end
 
+  #
+  # Remove cards for which the block evaluates to true, returning removed cards
+  # in an Array.
+  #
   def remove_card_if(&block)
-    self.delete(self.select { |card| yield(card) }.first)
+    matches = self.select { |card| yield(card) }
+    matches.collect { |match| self.delete(match) }
   end
   
   def to_s

@@ -13,6 +13,10 @@ class Cardlike::Deck < Array
     self.pop
   end
 
+  def shuffle
+    self.dup.shuffle!
+  end
+
   def include_card(name)
     raise "Card '#{name}' not found." unless card = Cardlike.the_card(name)
     self << card
@@ -28,5 +32,11 @@ class Cardlike::Deck < Array
     c = Cardlike.card(name, &block)
     self << c
     c
+  end
+
+  def draw_into(deck)
+    card = draw
+    deck << card
+    card
   end
 end

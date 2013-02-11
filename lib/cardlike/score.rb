@@ -11,6 +11,13 @@ module Cardlike
   end
 
   # 
+  # Clear all scores.
+  #
+  def self.clear_scores
+    @scores = {}
+  end
+
+  # 
   # Return the hash of the form +{target: score}+.
   #
   def self.scores

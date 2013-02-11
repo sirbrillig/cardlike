@@ -9,12 +9,12 @@ describe Cardlike::Deck do
       @shuffled = deck.shuffle
     end
 
-    it "returns a deck" do
-      @shuffle.should be_a_kind_of cardlike::deck
+    it "returns a Deck" do
+      @shuffled.should be_a_kind_of Cardlike::Deck
     end
 
     it "returns a differently-ordered deck" do
-      @shuffle.should_not eq @orig_deck
+      @shuffled.should_not eq @orig_deck
     end
 
     it "retains the order of the deck" do
@@ -25,18 +25,18 @@ describe Cardlike::Deck do
   describe "#shuffle!" do
     before do
       @orig_deck = deck.dup
+      @shuffled = deck.shuffle!
     end
 
-    it "returns a deck" do
-      @shuffle.should be_a_kind_of cardlike::deck
+    it "the deck remains a Deck" do
+      @shuffled.should be_a_kind_of Cardlike::Deck
     end
 
     it "returns a differently-ordered deck" do
-      deck.shuffle!.should_not eq @orig_deck
+      deck.should_not eq @orig_deck
     end
 
     it "changes the order of the deck" do
-      deck.shuffle!
       deck.should_not eq @orig_deck
     end
   end

@@ -27,7 +27,7 @@ describe 'A deck of cards' do
 
   context "when a card is drawn into a Hand" do
     before do
-      @hand = Hand.new(name: 'Player 1')
+      @hand = Cardlike::Hand.new(name: 'Player 1')
       @drawn = @deck.draw_into @hand
     end
 

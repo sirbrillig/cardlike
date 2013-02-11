@@ -2,6 +2,8 @@ require 'cardlike'
 require 'highline/import'
 
 Cardlike.game do
+  puts "Setting up..."
+
   type_of_card :playing_card do
     has :value
   end
@@ -17,8 +19,8 @@ Cardlike.game do
   end
 
   players = []
-  players << hand "Player 1"
-  players << hand "Player 2"
+  players << hand("Player 1")
+  players << hand("Player 2")
 
   players.each do |player|
     7.times { the_deck("Go Fish").draw_into player }
@@ -64,6 +66,8 @@ Cardlike.game do
   end
 
   begin
+    puts "Beginning a new turn!"
+
     begin
       another_turn = begin_new_turn 
     end while another_turn

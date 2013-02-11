@@ -2,6 +2,7 @@ require "cardlike/version"
 require "cardlike/deck"
 require "cardlike/card"
 require "cardlike/hand"
+require "cardlike/score"
 require "active_support/inflector"
 
 module Cardlike

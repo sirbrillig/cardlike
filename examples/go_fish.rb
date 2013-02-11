@@ -38,8 +38,8 @@ Cardlike.game do
     end
 
     asked_for = choose do |menu|
-      menu.prompt "#{current_player.name}, what are you looking for? "
-      menu.choices(current_player.map {|c| c.name })
+      menu.prompt = "#{current_player.name}, what are you looking for? "
+      menu.choices(*current_player.map {|c| c.name })
     end
 
     another_turn = false

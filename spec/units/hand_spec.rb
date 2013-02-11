@@ -32,5 +32,19 @@ describe "A hand of cards" do
         Cardlike.the_hand("Player 1").size.should eq 3
       end
     end
+
+    context "when removing a card with remove_card_if" do
+      before do
+        @card1 = Cardlike.the_hand("Player 1").remove_card_if { |c| c.name =~ /Three/ }
+      end
+
+      it "removes and returns the correct card" do
+        @card1.name.should eq "Boring Card Three"
+      end
+
+      it "removes the card from the Hand" do
+        Cardlike.the_hand("Player 1").size.should eq 3
+      end
+    end
   end
 end

@@ -5,6 +5,10 @@ class Cardlike::Hand < Cardlike::Deck
   def remove_card(card_name)
     self.delete(self.select { |card| card.name == card_name }.first)
   end
+
+  def remove_card_if(&block)
+    self.delete(self.select { |card| yield(card) }.first)
+  end
   
   def to_s
     puts "Hand: #{name}"

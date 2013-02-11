@@ -123,12 +123,18 @@ module Cardlike
   #
   # You can then access the card with:
   #
-  #   Cardlike.new_playing_card "Six of Spades"
+  #   Cardlike.new_playing_card "Six of Spades" do
+  #     value 6
+  #     suit 'spades'
+  #   end
   #
   # or:
   #
   #   Cardlike.deck "Poker Deck" do
-  #     new_playing_card "Six of Spades"
+  #     new_playing_card "Six of Spades" do
+  #       value 6
+  #       suit 'spades'
+  #     end
   #   end
   #
   def self.type_of_card(name, &block)

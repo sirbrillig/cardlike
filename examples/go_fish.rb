@@ -16,8 +16,10 @@ Cardlike.game do
         end
       end
     end
-  end
 
+    shuffle!
+  end
+  
   players = []
   players << hand("Player 1")
   players << hand("Player 2")
@@ -31,29 +33,32 @@ Cardlike.game do
   define_turn do
     target_player = players.last
     if players.size > 2
-      target_player = choose do |menu|
-        menu.prompt "#{current_player.name}, who are you asking? "
-        menu.choices(players.map { |p| p.name })
+      target_name = choose do |menu|
+        menu.prompt = "#{current_player.name}, who are you asking? "
+        menu.choices(*players.map { |p| p.name })
       end
+      target_player = players.select { |p| p.name == target_name }.first
     end
 
-    asked_for = choose do |menu|
+    target_card_name = choose do |menu|
       menu.prompt = "#{current_player.name}, what are you looking for? "
       menu.choices(*current_player.map {|c| c.name })
     end
+    target_card = current_player.select { |c| c.name == target_card_name }.first
 
     another_turn = false
-    if removed = target_player.remove_card_if { |c| c.value == asked_for.value }
+    if removed = target_player.remove_card_if { |c| c[:value] == target_card[:value] }
       current_player << removed
-      puts "Got one!"
+      puts "Got one! Yes indeed, #{target_player.name} had a #{removed.name}."
+      puts "You get another turn."
       another_turn = true
 
-      matching_sets = current_player.group_by { |c| c.value }.collect { |k, v| v.size >= 4 }
+      matching_sets = current_player.group_by { |c| c[:value] }.select { |k, v| v.size >= 4 }
       matching_sets.each_key do |value|
         # we will assume that you can only get a match from a card you just
         # collected.
         puts "You have a matching set of #{removed.name}!"
-        current_player.remove_card_if { |c| c.value == value }
+        current_player.remove_card_if { |c| c[:value] == value }
         score current_player.name
       end
     else

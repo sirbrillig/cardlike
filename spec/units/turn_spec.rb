@@ -7,7 +7,7 @@ describe Cardlike do
     end
 
     it "defines a turn accessible by .the_turn" do
-      Cardlike.the_turn.should be true
+      Cardlike.the_turn.should_not be_nil
     end
   end
 

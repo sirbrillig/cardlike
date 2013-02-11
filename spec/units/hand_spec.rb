@@ -35,7 +35,7 @@ describe "A hand of cards" do
 
     context "when removing a card with remove_card_if" do
       before do
-        @card1 = Cardlike.the_hand("Player 1").remove_card_if { |c| c.name =~ /Three/ }
+        @card1 = Cardlike.the_hand("Player 1").remove_card_if { |c| c.name =~ /Three/ }.first
       end
 
       it "removes and returns the correct card" do

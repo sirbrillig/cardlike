@@ -52,5 +52,22 @@ describe Cardlike do
       Cardlike.scores.should eq hash
     end
   end
+
+  describe ".set_score" do
+    before do
+      Cardlike.clear_scores
+      Cardlike.game do
+        score :foo
+        score :foo
+        score :bar
+
+        set_score :foo, 5
+      end
+    end
+
+    it "sets a score to particular value" do
+      Cardlike.the_score(:foo).should eq 5
+    end
+  end
 end
 

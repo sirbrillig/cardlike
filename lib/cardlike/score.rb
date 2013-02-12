@@ -18,7 +18,7 @@ module Cardlike
   end
 
   # 
-  # Return the hash of the form +{target: score}+.
+  # Return the hash of the form <tt>{target: score}</tt>.
   #
   def self.scores
     @scores ||= {}
@@ -40,7 +40,7 @@ module Cardlike
   # 
   # Set the score for a target to a particular value.
   #
-  def set_score(target, value)
+  def self.set_score(target, value)
     @scores ||= {}
     @scores[target] = value
   end

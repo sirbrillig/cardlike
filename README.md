@@ -16,6 +16,10 @@ Or install it yourself as:
 
     $ gem install cardlike
 
+Include the gem in your code to use it.
+
+    require 'cardlike'
+
 ## Summary
 
 Cardlike provides a [DSL](http://en.wikipedia.org/wiki/Domain-specific_language)
@@ -116,19 +120,150 @@ reference the property name as the key.
 
 ### Creating Decks
 
-TODO
+But what you really want to do is create a Deck of cards.
+
+    Cardlike.game do
+      
+      type_of_card :action_card do
+        has :power_level
+        has :cost
+      end
+
+      deck "Action Deck" do
+
+        new_action_card "Magic Spell" do
+          power_level 5
+          cost 3
+        end
+
+        new_action_card "Subtle Strike" do
+          power_level 2
+          cost 2
+        end
+
+        new_action_card "Wide Swing" do
+          power_level 1
+          cost 1
+        end
+
+        3.times { copy_card "Magic Spell" }
+        3.times { copy_card "Subtle Strike" }
+        3.times { copy_card "Wide Swing" }
+
+      end
+
+    end
+
+You can use the `deck` method to name a new deck and pass it a block which will
+be evauluated in the context of the Deck. In this case, we put a bunch of `card`
+creation methods in the block, or more specifically, `new_action_card` (the
+method that was created by `type_of_card`). 
+
+Cards defined within the `deck` method will automatically be added to the Deck.
+You can also add cards by treating the Deck as an Array (which it is).
+
+    Cardlike.game do
+      type_of_card :action_card
+      @card1 = new_action_card "Magic Spell"
+      @deck = deck "Action Deck"
+
+      @deck << @card1
+    end
+
+Decks can be accessed using `the_deck` method, which takes the name of a Deck.
+The cards within are inside an Array, so most Array methods will work
+(particularly `Deck#shuffle!`).
+
+    Cardlike.game do
+      ...
+      the_deck("Action Deck").shuffle!
+      the_deck("Action Deck").first.name # => could be "Magic Spell"
+    end
 
 ### Drawing into Hands
 
-TODO
+Often you probably want to draw the top card of the deck. Cardlike Decks have a
+`draw` method and a `draw_into` method. Both remove and return the top Card from
+that Deck. `draw_into` takes an additional argument which should be an Array,
+Deck, or Hand (or something that responds to `<<`).
+
+A Hand is a subclass of a Deck with some additional methods. Creating a Hand is
+easiest with the `hand` method (which works like the `Deck` method).
+
+    Cardlike.game do
+      type_of_card :action_card
+      @card1 = new_action_card "Magic Spell"
+      @deck = deck "Action Deck" do
+        2.times { copy_card "Magic Spell" }
+      end
+
+      the_deck("Action Deck").draw # => <Card, :name => 'Magic Spell'>
+
+      @player1 = hand "Player 1"
+
+      the_deck("Action Deck").draw_into @player1 # => <Card, :name => 'Magic Spell'>
+    end
+
+Hands can be accessed by `the_hand`, just like the other Cardlike objects.
+
+    Cardlike.game do
+      ...
+      hand "Player 1"
+      the_deck("Action Deck").draw_into the_hand("Player 1")
+      the_hand("Player 1").size # => 1
+    end
 
 ### Defining a Turn
 
-TODO
+As most games have turns, you can define a block of code as a turn using the
+`define_turn` method and then call it using `begin_new_turn`. Any number of
+arguments can be passed to the block.
+
+    Cardlike.game do
+      ...
+
+      define_turn do |current_hand|
+        the_deck("Action Deck").draw_into current_hand # Draw a card
+        puts "#{current_hand.name}'s Hand: #{current_hand}"
+      end
+
+      hands = []
+      hands << hand "Player 2"
+      hands << hand "Player 1"
+
+      begin
+        hands.rotate!
+        begin_new_turn(hands.first)
+      end while victory == false
+    end
 
 ### Keeping Score
 
-TODO
+Chances are there's scoring in your game too. You can use the `score` method to
+add a score to a particular key. The key can be anything, so players can have
+several scores or the game could keep score of several objects at once.
+
+You can retrieve the score using `the_score` followed by the key or get a Hash
+of all the scores with `scores`. 
+
+If you need to decrement the score or set it to a particular number, use
+`set_score`.
+
+    Cardlike.game do
+      ...
+      score "Player 1" # sets the score to 1
+      score "Player 2" # sets the score to 1
+      score "Player 1" # sets the score to 2
+
+      the_score "Player 1" # => 2
+
+      scores # => {"Player 1" => 2, "Player 2" => 1}
+
+      set_score "Player 2", 5
+
+      scores # => {"Player 1" => 2, "Player 2" => 5}
+
+    end
 
 ### Examples
 

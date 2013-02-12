@@ -36,4 +36,12 @@ module Cardlike
     @scores ||= {}
     @scores[target]
   end
+
+  # 
+  # Set the score for a target to a particular value.
+  #
+  def set_score(target, value)
+    @scores ||= {}
+    @scores[target] = value
+  end
 end

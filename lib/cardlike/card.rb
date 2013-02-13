@@ -61,7 +61,7 @@ class Cardlike::Card
     t = []
     t << "Name: #{name}"
     @properties.each { |p,v| t << "#{p}: #{v}" } 
-    t.join("\n")
+    "[ "+t.join("; ")+" ]"
   end
 
 end

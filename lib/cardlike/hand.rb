@@ -20,9 +20,8 @@ class Cardlike::Hand < Cardlike::Deck
   end
   
   def to_s
-    puts "Hand: #{name}"
-    self.each do |card|
-      puts "-> #{card}\n"
-    end
+    cards = ["Hand: #{name}"]
+    cards += self.collect { |c| "-> #{c}" }
+    cards.join("\n")
   end
 end

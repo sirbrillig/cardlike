@@ -60,7 +60,7 @@ class Cardlike::Card
   def to_s
     t = []
     t << "Name: #{name}"
-    @properties.each { |p,v| t << "#{p}: #{v}" } 
+    @properties.each { |p,v| t << "#{p}: #{v}" unless v.nil? or v.is_a? Proc } 
     "[ "+t.join("; ")+" ]"
   end
 

@@ -2,18 +2,24 @@
 # Represents a game card. Best used with the Card and Deck DSL. See Cardlike.
 #
 class Cardlike::Card
-  attr_accessor :name, :text
+  attr_accessor :name
+
+  attr_reader :card_type
 
   #
   # Create an instance of a Card. Arguments are a hash that should include
-  # +:name+ at a minimum.  Optionally all cards have a +text+ accessor that can
-  # be set in the constructor by including the option +:text+. Perhaps a better
-  # idea is to use Card.create or Cardlike.card.
+  # +:name+ at a minimum.  Perhaps a better idea is to use Card.create or
+  # Cardlike.card. Also see Cardlike.type_of_card.
   #
   def initialize(options={})
     self.name = options[:name]
-    self.text = options[:text]
+    @card_type = options[:card_type] || nil
     @properties = {}
+  end
+
+  def card_type=(type)
+    raise "Cannot re-set type after it has been set." if @card_type
+    @card_type = type
   end
 
   # 
@@ -23,9 +29,7 @@ class Cardlike::Card
   # is to create custom card types using Cardlike.type_of_card and create them
   # using the +new_+ methods.
   #
-  #   Card.create "Big Monster" do
-  #     text "Spend 1 Mana to Attack"
-  #   end
+  #   Card.create "Big Monster"
   #
   # Preferred over Card.new.
   #
@@ -33,15 +37,6 @@ class Cardlike::Card
     c = self.new(name: name)
     c.instance_eval(&block) if block_given?
     c
-  end
-
-  # 
-  # DSL method for setting the card text. Still works as a getter if no args are
-  # passed.
-  #
-  def text(card_text=nil)
-    return @text unless card_text
-    @text = card_text
   end
 
   # 
@@ -59,13 +54,12 @@ class Cardlike::Card
   # Cardlike.type_of_card.
   #
   def self.has(prop)
-    define_method(prop, lambda { |arg| raise "Cards are immutable." if @properties.has_key? prop; @properties[prop] = arg })
+    define_method(prop, lambda { |arg=nil| return @properties[prop] unless arg; raise "Cards are immutable." if @properties.has_key? prop; @properties[prop] = arg })
   end
 
   def to_s
     t = []
     t << "Name: #{name}"
-    t << "Text: #{text}" if text
     @properties.each { |p,v| t << "#{p}: #{v}" } 
     t.join("\n")
   end

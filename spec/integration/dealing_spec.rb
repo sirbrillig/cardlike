@@ -3,10 +3,10 @@ require 'spec_helper'
 describe 'A deck of cards' do
   before do
     @cards = []
-    @cards << Cardlike::Card.new(name: 'Leonardo', text: 'Has two swords.')
-    @cards << Cardlike::Card.new(name: 'Donatello', text: 'Has a Bo staff.')
-    @cards << Cardlike::Card.new(name: 'Michaelangelo', text: 'Has Nunchuku.')
-    @cards << Cardlike::Card.new(name: 'Raphael', text: 'Has Sai.')
+    @cards << Cardlike::Card.new(name: 'Leonardo')
+    @cards << Cardlike::Card.new(name: 'Donatello')
+    @cards << Cardlike::Card.new(name: 'Michaelangelo')
+    @cards << Cardlike::Card.new(name: 'Raphael')
 
     @deck = Cardlike::Deck.new(name: 'Turtles', cards: @cards)
   end

@@ -97,9 +97,7 @@ module Cardlike
   # the Card. Returns the Card (that can also be accessed with +the_card+). You
   # may use the Card DSL in the block.
   #
-  #   Cardlike.card "Fire Monster" do
-  #     text "A red-hot monster."
-  #   end
+  #   Cardlike.card "Fire Monster"
   #
   def self.card(name, &block)
     c = Card.create(name, &block)
@@ -145,8 +143,8 @@ module Cardlike
     c = Object.const_get(klass_name)
     c.class_eval(&block) if block_given?
 
-    Deck.send(:define_method, "new_#{name_underscored}", lambda { |arg, &blk| card = c.create(arg, &blk); self << card; card })
-    self.class.send(:define_method, "new_#{name_underscored}", lambda { |arg, &blk| card = c.create(arg, &blk); @cards ||= {}; @cards[arg] = card; card })
+    Deck.send(:define_method, "new_#{name_underscored}", lambda { |arg, &blk| card = c.create(arg, &blk); card.card_type = name_underscored.to_sym; self << card; card })
+    self.class.send(:define_method, "new_#{name_underscored}", lambda { |arg, &blk| card = c.create(arg, &blk); card.card_type = name_underscored.to_sym; @cards ||= {}; @cards[arg] = card; card })
 
     c
   end

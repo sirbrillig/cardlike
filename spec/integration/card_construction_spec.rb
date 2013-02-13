@@ -5,9 +5,7 @@ describe 'Defining a card' do
 
     context "for a basic card" do
       before do
-        @card = Cardlike.card "Fire Monster" do
-          text "A red-hot monster."
-        end
+        @card = Cardlike.card "Fire Monster"
       end
 
       it "creates a Card object" do
@@ -16,10 +14,6 @@ describe 'Defining a card' do
 
       it "properly sets the card name" do
         @card.name.should eq "Fire Monster"
-      end
-
-      it "properly sets the card text" do
-        @card.text.should eq "A red-hot monster."
       end
     end
 
@@ -45,7 +39,7 @@ describe 'Defining a card' do
       @playing_card.name.should eq "PlayingCard"
     end
 
-    it "creates an accessor for the custom field" do
+    it "creates an accessor for the custom property" do
       @playing_card.new.should respond_to :suit
     end
 
@@ -64,8 +58,16 @@ describe 'Defining a card' do
         @card.should be_a_kind_of Cardlike::Card
       end
 
-      it "creates an accessor for the custom field" do
+      it "creates an accessor for the custom property" do
         @card.should respond_to :suit
+      end
+
+      it "responds to the Card.card_type method with the type" do
+        @card.card_type.should eq :playing_card
+      end
+
+      it "does not allow setting of card_type" do
+        lambda { @card.card_type = 'Special Card' }.should raise_error(StandardError)
       end
     end
     
@@ -81,7 +83,7 @@ describe 'Defining a card' do
         @card.should be_a_kind_of Cardlike::Card
       end
 
-      it "creates an accessor for the custom field" do
+      it "creates an accessor for the custom property" do
         @card.should respond_to :suit
       end
 
@@ -90,11 +92,15 @@ describe 'Defining a card' do
         @card2.should_not respond_to :suit
       end
 
-      it "sets the field properly" do
+      it "sets the property properly" do
         @card[:suit].should eq 'Spades'
       end
 
-      it "does not allow fields to be set again" do
+      it "also returns the property from the accessor version of the setter" do
+        @card.suit.should eq 'Spades'
+      end
+
+      it "does not allow properties to be set again" do
         lambda { @card.suit 'Clubs' }.should raise_error(StandardError)
       end
 

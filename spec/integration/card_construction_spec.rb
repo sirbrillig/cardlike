@@ -108,4 +108,24 @@ describe 'Defining a card' do
 
   end
 
+  context "that includes a block" do
+    before do
+      Cardlike.game do
+        type_of_card :monster_card do
+          has :action
+        end
+
+        new_monster_card "Ogre" do
+          action(Proc.new do
+            :action_complete
+          end)
+        end
+      end
+    end
+
+    it "completes the action" do
+      Cardlike.the_card("Ogre").action.call.should eq :action_complete
+    end
+  end
+
 end

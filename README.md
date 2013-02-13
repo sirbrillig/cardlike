@@ -88,7 +88,8 @@ You can also prefix the class methods with Cardlike.
 ### Creating Cards
 
 The `card` method can be used to create a new Card object. Created cards are
-stored globally and can be accessed with `the_card` and the card's name.
+stored globally and can be accessed with `the_card` and the card's name (unless
+they were created directly in a Deck).
 
     Cardlike.card "Draw one Play one" # => creates (and returns) a new Card object
     Cardlike.the_card "Draw one Play one" # => the Card object created above (NOT a copy)
@@ -100,15 +101,18 @@ to do this.
     Cardlike.type_of_card :action_card do
       has :power_level
       has :color
+      has :speed
     end
 
     Cardlike.new_action_card "Magic Spell" do
       power_level 5
       color :red
+      speed :fast
     end # => new Card object (actually a new ActionCard object)
 
     Cardlike.the_card("Magic Spell")[:color] # => :red
     Cardlike.the_card("Magic Spell")[:power_level] # => 5
+    Cardlike.the_card("Magic Spell").speed # => :fast (this style available after 0.0.2)
 
 The `type_of_card` method creates a new subclass of Card. Use the `has` method in
 a `card` block to add a property. A new card creation method is added to the DSL
@@ -116,7 +120,13 @@ with the type of card prefixed by `new_`.
 
 To assign a property to a new card in the card block, use a method of the same
 name as the property. To retrieve that property, treat the card as a hash and
-reference the property name as the key.
+reference the property name as the key. As of version 0.0.2, you can also get
+the property value by calling a getter method of the same name as the key.
+
+If you'd like to know what kind of card you're dealing with, just ask it with
+`card_type`.
+
+    Cardlike.the_card("Magic Spell").card_type # => :action_card
 
 ### Creating Decks
 

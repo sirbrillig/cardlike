@@ -34,7 +34,7 @@ module Cardlike
   #
   def self.the_score(target)
     @scores ||= {}
-    @scores[target]
+    @scores[target] || 0
   end
 
   # 

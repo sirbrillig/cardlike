@@ -112,13 +112,13 @@ describe 'Defining a card' do
     before do
       Cardlike.game do
         type_of_card :monster_card do
-          has :action
+          has_block :action
         end
 
         new_monster_card "Ogre" do
-          action(Proc.new do
+          action do
             :action_complete
-          end)
+          end
         end
       end
     end

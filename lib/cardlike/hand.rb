@@ -7,7 +7,7 @@ class Cardlike::Hand < Cardlike::Deck
   # Remove and return a Card from this hand by name.
   #
   def remove_card(card_name)
-    self.delete(self.select { |card| card.name == card_name }.first)
+    self.delete(self.find { |card| card.name == card_name })
   end
 
   # 
@@ -15,6 +15,18 @@ class Cardlike::Hand < Cardlike::Deck
   #
   def remove_card_at(index)
     self.delete_at(index)
+  end
+
+  def remove_random_card(&block)
+    if block
+      options = []
+      self.each { |c| options << c if block.call(c) }
+      c = options.sample
+      return self.delete(c)
+    else
+      c = self.sample
+      return self.delete(c)
+    end
   end
 
   #

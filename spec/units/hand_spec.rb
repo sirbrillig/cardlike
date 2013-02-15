@@ -38,12 +38,16 @@ describe "A hand of cards" do
         @card1 = Cardlike.the_hand("Player 1").remove_random_card
       end
 
+      it "removes a Card" do
+        @card1.should be_a_kind_of Cardlike::Card
+      end
+
       it "removes the card from the Hand" do
         Cardlike.the_hand("Player 1").size.should eq 3
       end
     end
 
-    context "when removing a card at random with specific parameters" do
+    context "when removing a card at random with specific parameters (a block)" do
       before do
         @card1 = Cardlike.the_hand("Player 1").remove_random_card { |c| c.name =~ /^Boring Card T/ }
       end

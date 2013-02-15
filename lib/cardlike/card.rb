@@ -50,6 +50,14 @@ class Cardlike::Card
   end
 
   #
+  # Class DSL method for setting custom properties for a Card that include a
+  # block. See Cardlike.type_of_card.
+  #
+  def self.has_block(prop)
+    define_method(prop, lambda { |&block| return @properties[prop] unless block; raise "Cards are immutable." if @properties.has_key? prop; @properties[prop] = block })
+  end
+
+  #
   # Class DSL method for setting custom properties for a Card. See
   # Cardlike.type_of_card.
   #

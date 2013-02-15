@@ -59,7 +59,7 @@ describe "A hand of cards" do
 
     context "when removing a card by index" do
       before do
-        @card1 = Cardlike.the_hand("Player 1").remove_card_at 4
+        @card1 = Cardlike.the_hand("Player 1").remove_card_at 3
       end
 
       it "can remove a specific card" do

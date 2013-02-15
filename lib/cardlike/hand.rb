@@ -10,6 +10,13 @@ class Cardlike::Hand < Cardlike::Deck
     self.delete(self.select { |card| card.name == card_name }.first)
   end
 
+  # 
+  # Remove and return a Card from this hand at the index.
+  #
+  def remove_card_at(index)
+    self.delete_at(index)
+  end
+
   #
   # Remove cards for which the block evaluates to true, returning removed cards
   # in an Array. If no cards are found, returns an empty array.

@@ -69,7 +69,8 @@ to define your whole game in a `Cardlike.game` block.
       end
     end
 
-You can also prefix the class methods with Cardlike.
+You can also prefix the class methods with Cardlike and pass card, deck, and
+hand objects around yourself.
 
     Cardlike.type_of_card :playing_card do
       has :suit
@@ -102,21 +103,26 @@ to do this.
       has :power_level
       has :color
       has :speed
+      has_block :activate
     end
 
     Cardlike.new_action_card "Magic Spell" do
       power_level 5
       color :red
       speed :fast
+      activate { "zzzzZZZZAP!!" }
     end # => new Card object (actually a new ActionCard object)
 
     Cardlike.the_card("Magic Spell")[:color] # => :red
     Cardlike.the_card("Magic Spell")[:power_level] # => 5
     Cardlike.the_card("Magic Spell").speed # => :fast (this style available after 0.0.2)
+    Cardlike.the_card("Magic Spell").activate.call # => "zzzzZZZZAP!!" (this style available after 0.0.2)
 
 The `type_of_card` method creates a new subclass of Card. Use the `has` method in
 a `card` block to add a property. A new card creation method is added to the DSL
 with the type of card prefixed by `new_`. 
+
+A `has_block` method takes a block and stores it as a property on the Card. 
 
 To assign a property to a new card in the card block, use a method of the same
 name as the property. To retrieve that property, treat the card as a hash and
@@ -221,6 +227,16 @@ Hands can be accessed by `the_hand`, just like the other Cardlike objects.
       hand "Player 1"
       the_deck("Action Deck").draw_into the_hand("Player 1")
       the_hand("Player 1").size # => 1
+    end
+
+A Hand also has a few tricks up its sleve:
+
+    Cardlike.game do
+      the_hand("Player 1").remove_card_at(1) # Removes and returns the card at index 1 (0-based index)
+
+      the_hand("Player 1").remove_random_card # Removes and returns a random card from the hand.
+
+      the_hand("Player 1").remove_random_card { |card| card.name =~ /^Magic/ } # Removes and returns a random card from the cards in the hand for which the block returns true.
     end
 
 ### Defining a Turn

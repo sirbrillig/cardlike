@@ -19,7 +19,7 @@ describe "A hand of cards" do
       Cardlike.the_hand("Player 1").first.name.should eq "Boring Card One"
     end
 
-    context "when removing a specific card" do
+    context "when removing a card by name" do
       before do
         @card1 = Cardlike.the_hand("Player 1").remove_card "Boring Card One"
       end
@@ -33,7 +33,45 @@ describe "A hand of cards" do
       end
     end
 
-    context "when removing a card with remove_card_if" do
+    context "when removing a card at random" do
+      before do
+        @card1 = Cardlike.the_hand("Player 1").remove_random_card
+      end
+
+      it "removes the card from the Hand" do
+        Cardlike.the_hand("Player 1").size.should eq 3
+      end
+    end
+
+    context "when removing a card at random with specific parameters" do
+      before do
+        @card1 = Cardlike.the_hand("Player 1").remove_random_card { |c| c.name =~ /^Boring Card T/ }
+      end
+
+      it "removes a card matching the parameters" do
+        @card1.name.should satisfy { |s| ["Boring Card Two", "Boring Card Three"].include?(s) }
+      end
+
+      it "removes the card from the Hand" do
+        Cardlike.the_hand("Player 1").size.should eq 3
+      end
+    end
+
+    context "when removing a card by index" do
+      before do
+        @card1 = Cardlike.the_hand("Player 1").remove_card_at 4
+      end
+
+      it "can remove a specific card" do
+        @card1.name.should eq "Boring Card Four"
+      end
+
+      it "removes the card from the Hand" do
+        Cardlike.the_hand("Player 1").size.should eq 3
+      end
+    end
+
+    context "when removing cards with remove_card_if" do
       before do
         @card1 = Cardlike.the_hand("Player 1").remove_card_if { |c| c.name =~ /Three/ }.first
       end

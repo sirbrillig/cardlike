@@ -6,6 +6,8 @@ class Cardlike::Card
 
   attr_reader :card_type
 
+  attr_accessor :attachments
+
   #
   # Create an instance of a Card. Arguments are a hash that should include
   # +:name+ at a minimum.  Perhaps a better idea is to use Card.create or
@@ -15,6 +17,7 @@ class Cardlike::Card
     self.name = options[:name]
     @card_type = options[:card_type] || nil
     @properties = {}
+    @attachments = []
   end
 
   def card_type=(type)
@@ -63,6 +66,14 @@ class Cardlike::Card
   #
   def self.has(prop)
     define_method(prop, lambda { |arg=nil| return @properties[prop] unless arg; raise "Cards are immutable." if @properties.has_key? prop; @properties[prop] = arg })
+  end
+
+  #
+  # Attach something (often another card) to this card. It can be retreieved
+  # using the +attachments+ array.
+  #
+  def attach(item)
+    @attachments << item
   end
 
   def to_s
